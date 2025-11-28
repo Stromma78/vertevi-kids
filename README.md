@@ -16,6 +16,7 @@ The app is built with **Expo** and **React Native**, and is designed to work on 
 - TypeScript
 - React Navigation (Native Stack)
 - AsyncStorage (for local persistence of parent settings)
+- Expo Camera (for future camera-based posture / distance checks and a Camera Test preview)
 
 ---
 
@@ -37,9 +38,10 @@ vertevi-kids/
     CalmFocusScreen.tsx     # Calm Focus Mode flow
 
     ParentPinScreen.tsx     # Parent PIN gate
-    ParentAreaScreen.tsx    # Parent hub (rules, settings, profiles, reports, about)
+    ParentAreaScreen.tsx    # Parent hub (rules, settings, profiles, reports, about, camera test)
     ScreenTimeRulesScreen.tsx  # Screen Time Rules (with saved settings)
     PostureSettingsScreen.tsx  # Posture Settings (with saved settings)
     DeviceProfilesScreen.tsx   # Example device/child profiles
     ReportsScreen.tsx          # Placeholder reports & history view
     AboutScreen.tsx            # About Vertevi Kids information
+    CameraTestScreen.tsx       # Camera Test (preview) screen using expo-camera
