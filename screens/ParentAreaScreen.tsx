@@ -100,6 +100,10 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
     }
   };
 
+  const handleOpenCameraLab = () => {
+    navigation.navigate('CameraLab');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Parent Area</Text>
@@ -130,7 +134,7 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
         <Text style={styles.devTitle}>Developer tools</Text>
         <Text style={styles.devText}>
           For testing only. These actions clear or inspect data stored by Vertevi
-          Kids on this device.
+          Kids on this device, and open the Camera Lab.
         </Text>
 
         <View style={styles.devButtonWrapper}>
@@ -154,6 +158,14 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
             title="Show saved session summary"
             onPress={handleShowSessionSummary}
             color={colors.primaryDark}
+          />
+        </View>
+
+        <View style={styles.devButtonWrapper}>
+          <Button
+            title="Open Camera Lab (dev)"
+            onPress={handleOpenCameraLab}
+            color={colors.primary}
           />
         </View>
 
