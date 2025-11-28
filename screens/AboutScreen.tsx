@@ -1,5 +1,6 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
+import { APP_VERSION } from '../config/appConfig';
 
 export default function AboutScreen() {
   return (
@@ -87,6 +88,10 @@ export default function AboutScreen() {
           data are currently stored only on this device.
         </Text>
       </View>
+
+      <Text style={styles.versionText}>
+        Vertevi Kids version {APP_VERSION}
+      </Text>
     </ScrollView>
   );
 }
@@ -135,5 +140,11 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginLeft: 4,
     marginBottom: 4,
+  },
+  versionText: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: 16,
   },
 });
