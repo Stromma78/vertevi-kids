@@ -12,6 +12,7 @@ import {
   SCREEN_TIME_RULES_KEY,
   POSTURE_SETTINGS_KEY,
 } from '../config/storageKeys';
+import { getAllSessions } from '../data/sessionStore';
 
 type ParentAreaScreenProps = {
   navigation: any;
@@ -76,6 +77,29 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
     }
   };
 
+  const handleShowSessionSummary = async () => {
+    try {
+      const sessions = await getAllSessions();
+      const total = sessions.length;
+      const distanceCount = sessions.filter(
+        (s) => s.type === 'distance'
+      ).length;
+      const postureCount = sessions.filter(
+        (s) => s.type === 'posture'
+      ).length;
+
+      alert(
+        `Sessions saved on this device:\n\n` +
+          `Total: ${total}\n` +
+          `Distance sessions: ${distanceCount}\n` +
+          `Posture sessions: ${postureCount}`
+      );
+    } catch (error) {
+      console.warn('Failed to load session summaries:', error);
+      alert('There was a problem loading session summaries. Please try again.');
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Parent Area</Text>
@@ -105,8 +129,8 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
       <View style={styles.devSection}>
         <Text style={styles.devTitle}>Developer tools</Text>
         <Text style={styles.devText}>
-          For testing only. These actions clear data stored by Vertevi Kids on this
-          device.
+          For testing only. These actions clear or inspect data stored by Vertevi
+          Kids on this device.
         </Text>
 
         <View style={styles.devButtonWrapper}>
@@ -124,6 +148,15 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
             color={colors.primary}
           />
         </View>
+
+        <View style={styles.devButtonWrapper}>
+          <Button
+            title="Show saved session summary"
+            onPress={handleShowSessionSummary}
+            color={colors.primaryDark}
+          />
+        </View>
+
         <Text style={styles.devWarning}>
           Warning: &quot;Clear ALL&quot; will remove all AsyncStorage data used by this
           app on this device.
