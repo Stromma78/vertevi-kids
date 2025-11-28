@@ -25,10 +25,15 @@ The app is built with **Expo** and **React Native**, and is designed to work on 
 ```text
 vertevi-kids/
   App.tsx               # Navigation setup and screen registration
-  app.json              # Expo config (name, icon, splash, etc.)
+  app.json              # Expo config (name, icon, splash, bundle IDs, etc.)
+  eas.json              # EAS (Expo Application Services) build config
+  package.json          # Dependencies and npm scripts
   assets/               # App icon, splash, and other media
   theme/
     colors.ts           # Design system colours
+  config/
+    appConfig.ts        # PARENT_PIN and APP_VERSION
+    storageKeys.ts      # AsyncStorage keys
   screens/
     HomeScreen.tsx          # Entry point: Kids vs Parent sections
     KidsModeScreen.tsx      # Kids Mode hub (4 activities)
@@ -38,7 +43,7 @@ vertevi-kids/
     CalmFocusScreen.tsx     # Calm Focus Mode flow
 
     ParentPinScreen.tsx     # Parent PIN gate
-    ParentAreaScreen.tsx    # Parent hub (rules, settings, profiles, reports, about, camera test)
+    ParentAreaScreen.tsx    # Parent hub (rules, settings, profiles, reports, about, camera test, dev tools)
     ScreenTimeRulesScreen.tsx  # Screen Time Rules (with saved settings)
     PostureSettingsScreen.tsx  # Posture Settings (with saved settings)
     DeviceProfilesScreen.tsx   # Example device/child profiles
