@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ScrollView,
   View,
@@ -8,9 +8,19 @@ import {
   Pressable,
   Button,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
 
 type SensitivityLevel = 'low' | 'medium' | 'high';
+
+type StoredPostureSettings = {
+  guidanceEnabled: boolean;
+  remindersEnabled: boolean;
+  gentleModeEnabled: boolean;
+  sensitivity: SensitivityLevel;
+};
+
+const STORAGE_KEY = 'vertevi:postureSettings';
 
 export default function PostureSettingsScreen() {
   const [guidanceEnabled, setGuidanceEnabled] = useState(true);
@@ -18,12 +28,47 @@ export default function PostureSettingsScreen() {
   const [gentleModeEnabled, setGentleModeEnabled] = useState(true);
   const [sensitivity, setSensitivity] =
     useState<SensitivityLevel>('medium');
+  const [isLoading, setIsLoading] = useState(true);
 
   const reminderFrequencyLabel = 'Every 10 minutes';
 
-  const handleSave = () => {
-    // Placeholder only – later this will save to storage / backend.
-    alert('Posture settings saved (placeholder).');
+  // Load saved settings on mount
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) {
+          const stored: StoredPostureSettings = JSON.parse(json);
+          setGuidanceEnabled(stored.guidanceEnabled);
+          setRemindersEnabled(stored.remindersEnabled);
+          setGentleModeEnabled(stored.gentleModeEnabled);
+          setSensitivity(stored.sensitivity);
+        }
+      } catch (error) {
+        console.warn('Failed to load posture settings:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSettings();
+  }, []);
+
+  const handleSave = async () => {
+    const data: StoredPostureSettings = {
+      guidanceEnabled,
+      remindersEnabled,
+      gentleModeEnabled,
+      sensitivity,
+    };
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert('Posture settings saved on this device.');
+    } catch (error) {
+      console.warn('Failed to save posture settings:', error);
+      alert('There was a problem saving the settings. Please try again.');
+    }
   };
 
   const renderSensitivityChip = (
@@ -50,6 +95,16 @@ export default function PostureSettingsScreen() {
       </Pressable>
     );
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>
+          Loading posture settings…
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -124,7 +179,7 @@ export default function PostureSettingsScreen() {
       </View>
 
       {/* Gentle vs strict mode */}
-      <View className="section" style={styles.section}>
+      <View style={styles.section}>
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Gentle mode</Text>
           <Switch
@@ -159,6 +214,17 @@ export default function PostureSettingsScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: colors.textSecondary,
+  },
   container: {
     paddingHorizontal: 24,
     paddingVertical: 24,
