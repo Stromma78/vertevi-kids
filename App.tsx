@@ -15,6 +15,7 @@ import ScreenTimeRulesScreen from './screens/ScreenTimeRulesScreen';
 import PostureSettingsScreen from './screens/PostureSettingsScreen';
 import DeviceProfilesScreen from './screens/DeviceProfilesScreen';
 import ReportsScreen from './screens/ReportsScreen';
+import AboutScreen from './screens/AboutScreen';
 
 import { colors } from './theme/colors';
 
@@ -90,6 +91,11 @@ export default function App() {
           name="Reports"
           component={ReportsScreen}
           options={{ title: 'Reports & History' }}
+        />
+        <Stack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ title: 'About Vertevi Kids' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

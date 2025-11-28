@@ -26,6 +26,11 @@ const sections = [
     title: 'Reports & History',
     description: 'View trends in screen time and posture over time.',
   },
+  {
+    key: 'About',
+    title: 'About Vertevi Kids',
+    description: 'See what Vertevi Kids is designed to do.',
+  },
 ];
 
 export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) {
