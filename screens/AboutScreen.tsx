@@ -6,7 +6,7 @@ export default function AboutScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>About Vertevi Kids</Text>
       <Text style={styles.subtitle}>
-        Helping kids build healthy screen habits, one session at a time.
+        Helping kids build healthy screen habits, with or without a stand.
       </Text>
 
       <View style={styles.section}>
@@ -27,19 +27,34 @@ export default function AboutScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>How it works (future vision)</Text>
+        <Text style={styles.sectionTitle}>Works on any device</Text>
         <Text style={styles.bodyText}>
-          As Vertevi Kids develops, it will connect with the Vertevi stand and
-          camera-based posture detection to:
+          Vertevi Kids is being built first as a software experience that works
+          on any compatible phone or tablet. The goal is for families to use it
+          even if they:
         </Text>
         <Text style={styles.bulletText}>
-          • Gently prompt kids when they sit too close to the screen.
+          • Do not have a special stand.
         </Text>
         <Text style={styles.bulletText}>
-          • Offer simple posture checks and reminders.
+          • Use a generic stand or case.
         </Text>
         <Text style={styles.bulletText}>
-          • Trigger movement breaks during longer sessions.
+          • Sometimes hold the device in their hands.
+        </Text>
+        <Text style={styles.bodyText}>
+          When camera-based detection is added, the app will use the device
+          camera to give live posture and distance guidance wherever possible.
+        </Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Future Vertevi stand integration</Text>
+        <Text style={styles.bodyText}>
+          The Vertevi stand is planned as an optional upgrade: it can make it
+          easier to keep screens at the right height and distance, and may
+          unlock more precise guidance. However, Vertevi Kids is being designed
+          so that the core coaching features still make sense without the stand.
         </Text>
       </View>
 
@@ -66,6 +81,10 @@ export default function AboutScreen() {
           Vertevi Kids is a wellbeing tool and does not replace professional
           medical advice. It is designed to support healthier everyday habits
           around screens, not to diagnose or treat any condition.
+        </Text>
+        <Text style={styles.bodyText}>
+          This is an early preview of the Vertevi Kids experience. Settings and
+          data are currently stored only on this device.
         </Text>
       </View>
     </ScrollView>
