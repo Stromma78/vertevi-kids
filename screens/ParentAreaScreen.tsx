@@ -64,6 +64,18 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
     }
   };
 
+  const handleClearAllData = async () => {
+    try {
+      await AsyncStorage.clear();
+      alert(
+        'All saved Vertevi Kids data has been cleared from AsyncStorage on this device.'
+      );
+    } catch (error) {
+      console.warn('Failed to clear all app data:', error);
+      alert('There was a problem clearing all data. Please try again.');
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Parent Area</Text>
@@ -93,9 +105,10 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
       <View style={styles.devSection}>
         <Text style={styles.devTitle}>Developer tools</Text>
         <Text style={styles.devText}>
-          For testing only. This clears saved Screen Time Rules and Posture Settings
-          on this device so you can try different scenarios.
+          For testing only. These actions clear data stored by Vertevi Kids on this
+          device.
         </Text>
+
         <View style={styles.devButtonWrapper}>
           <Button
             title="Clear saved parent settings"
@@ -103,6 +116,18 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
             color={colors.secondary}
           />
         </View>
+
+        <View style={styles.devButtonWrapper}>
+          <Button
+            title="Clear ALL saved app data"
+            onPress={handleClearAllData}
+            color={colors.primary}
+          />
+        </View>
+        <Text style={styles.devWarning}>
+          Warning: &quot;Clear ALL&quot; will remove all AsyncStorage data used by this
+          app on this device.
+        </Text>
       </View>
     </ScrollView>
   );
@@ -174,5 +199,12 @@ const styles = StyleSheet.create({
   devButtonWrapper: {
     width: '80%',
     alignSelf: 'center',
+    marginBottom: 8,
+  },
+  devWarning: {
+    fontSize: 11,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: 4,
   },
 });
