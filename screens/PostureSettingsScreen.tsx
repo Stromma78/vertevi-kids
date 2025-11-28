@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
+import { POSTURE_SETTINGS_KEY } from '../config/storageKeys';
 
 type SensitivityLevel = 'low' | 'medium' | 'high';
 
@@ -19,8 +20,6 @@ type StoredPostureSettings = {
   gentleModeEnabled: boolean;
   sensitivity: SensitivityLevel;
 };
-
-const STORAGE_KEY = 'vertevi:postureSettings';
 
 export default function PostureSettingsScreen() {
   const [guidanceEnabled, setGuidanceEnabled] = useState(true);
@@ -36,7 +35,7 @@ export default function PostureSettingsScreen() {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        const json = await AsyncStorage.getItem(POSTURE_SETTINGS_KEY);
         if (json) {
           const stored: StoredPostureSettings = JSON.parse(json);
           setGuidanceEnabled(stored.guidanceEnabled);
@@ -63,7 +62,10 @@ export default function PostureSettingsScreen() {
     };
 
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      await AsyncStorage.setItem(
+        POSTURE_SETTINGS_KEY,
+        JSON.stringify(data)
+      );
       alert('Posture settings saved on this device.');
     } catch (error) {
       console.warn('Failed to save posture settings:', error);

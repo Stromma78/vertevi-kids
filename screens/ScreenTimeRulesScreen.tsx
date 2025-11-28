@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
-
-const STORAGE_KEY = 'vertevi:screenTimeRules';
+import { SCREEN_TIME_RULES_KEY } from '../config/storageKeys';
 
 type StoredRules = {
   limitsEnabled: boolean;
@@ -33,7 +32,7 @@ export default function ScreenTimeRulesScreen() {
   useEffect(() => {
     const loadRules = async () => {
       try {
-        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        const json = await AsyncStorage.getItem(SCREEN_TIME_RULES_KEY);
         if (json) {
           const stored: StoredRules = JSON.parse(json);
           setLimitsEnabled(stored.limitsEnabled);
@@ -58,7 +57,10 @@ export default function ScreenTimeRulesScreen() {
     };
 
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      await AsyncStorage.setItem(
+        SCREEN_TIME_RULES_KEY,
+        JSON.stringify(data)
+      );
       alert('Screen time rules saved on this device.');
     } catch (error) {
       console.warn('Failed to save screen time rules:', error);
