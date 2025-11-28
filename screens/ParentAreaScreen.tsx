@@ -1,5 +1,17 @@
-import { ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Button,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
+import {
+  SCREEN_TIME_RULES_KEY,
+  POSTURE_SETTINGS_KEY,
+} from '../config/storageKeys';
 
 type ParentAreaScreenProps = {
   navigation: any;
@@ -39,6 +51,19 @@ const sections = [
 ];
 
 export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) {
+  const handleClearSavedSettings = async () => {
+    try {
+      await AsyncStorage.multiRemove([
+        SCREEN_TIME_RULES_KEY,
+        POSTURE_SETTINGS_KEY,
+      ]);
+      alert('Saved Screen Time Rules and Posture Settings cleared on this device.');
+    } catch (error) {
+      console.warn('Failed to clear saved parent settings:', error);
+      alert('There was a problem clearing the saved settings. Please try again.');
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Parent Area</Text>
@@ -62,6 +87,22 @@ export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) 
             </Text>
           </Pressable>
         ))}
+      </View>
+
+      {/* Developer tools – for testing only, easy to remove later */}
+      <View style={styles.devSection}>
+        <Text style={styles.devTitle}>Developer tools</Text>
+        <Text style={styles.devText}>
+          For testing only. This clears saved Screen Time Rules and Posture Settings
+          on this device so you can try different scenarios.
+        </Text>
+        <View style={styles.devButtonWrapper}>
+          <Button
+            title="Clear saved parent settings"
+            onPress={handleClearSavedSettings}
+            color={colors.secondary}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -88,6 +129,7 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     gap: 16,
+    marginBottom: 24,
   },
   card: {
     backgroundColor: colors.background,
@@ -109,5 +151,28 @@ const styles = StyleSheet.create({
   cardDescription: {
     fontSize: 14,
     color: colors.textSecondary,
+  },
+  devSection: {
+    backgroundColor: colors.background,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  devTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textPrimary,
+    marginBottom: 4,
+  },
+  devText: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginBottom: 12,
+  },
+  devButtonWrapper: {
+    width: '80%',
+    alignSelf: 'center',
   },
 });
