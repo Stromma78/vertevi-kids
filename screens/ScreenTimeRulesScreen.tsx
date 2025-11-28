@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,22 +7,73 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
+
+const STORAGE_KEY = 'vertevi:screenTimeRules';
+
+type StoredRules = {
+  limitsEnabled: boolean;
+  breaksEnabled: boolean;
+  eveningBlockEnabled: boolean;
+};
 
 export default function ScreenTimeRulesScreen() {
   const [limitsEnabled, setLimitsEnabled] = useState(true);
   const [breaksEnabled, setBreaksEnabled] = useState(true);
   const [eveningBlockEnabled, setEveningBlockEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // These are just placeholders for now – later we can make real controls.
   const dailyLimitLabel = '2 hours total';
   const breakFrequencyLabel = 'Every 20 minutes';
   const eveningBlockLabel = 'After 8:00 pm';
 
-  const handleSave = () => {
-    // For now we just show a simple message. Later this would save to real storage / backend.
-    alert('Screen time rules saved (placeholder).');
+  // Load saved settings on mount
+  useEffect(() => {
+    const loadRules = async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) {
+          const stored: StoredRules = JSON.parse(json);
+          setLimitsEnabled(stored.limitsEnabled);
+          setBreaksEnabled(stored.breaksEnabled);
+          setEveningBlockEnabled(stored.eveningBlockEnabled);
+        }
+      } catch (error) {
+        console.warn('Failed to load screen time rules:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadRules();
+  }, []);
+
+  const handleSave = async () => {
+    const data: StoredRules = {
+      limitsEnabled,
+      breaksEnabled,
+      eveningBlockEnabled,
+    };
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert('Screen time rules saved on this device.');
+    } catch (error) {
+      console.warn('Failed to save screen time rules:', error);
+      alert('There was a problem saving the rules. Please try again.');
+    }
   };
+
+  // While loading, we can show a simple placeholder.
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading screen time rules…</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -126,6 +177,17 @@ export default function ScreenTimeRulesScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: colors.textSecondary,
+  },
   container: {
     paddingHorizontal: 24,
     paddingVertical: 24,
