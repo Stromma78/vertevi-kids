@@ -9,23 +9,22 @@ const activities = [
   {
     key: 'DistanceCoach',
     title: 'Screen Distance Coach',
-    description: 'Helps your child keep a healthy distance from the screen.',
+    description: 'Helps you sit the right distance from your screen.',
   },
   {
     key: 'PostureCheck',
     title: 'Posture Check',
-    description: 'Guided posture checks for head, neck and shoulders.',
+    description: 'Quick check to help your head, neck and shoulders.',
   },
   {
     key: 'MovementBreaks',
     title: 'Movement Breaks',
-    description: 'Short movement and stretch breaks between screen sessions.',
+    description: 'Short moves and stretches between screen time.',
   },
   {
     key: 'CalmFocus',
     title: 'Calm Focus Mode',
-    description:
-      'Supports calm, focused screen time with gentle visual prompts.',
+    description: 'Helps you get calm and ready to focus.',
   },
 ];
 
@@ -34,8 +33,18 @@ export default function KidsModeScreen({ navigation }: KidsModeScreenProps) {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Kids Mode</Text>
       <Text style={styles.subtitle}>
-        Choose an activity to get started with healthy screen habits.
+        Choose an activity to help your body feel better while you use your
+        device.
       </Text>
+
+      <View style={styles.infoCard}>
+        <Text style={styles.infoTitle}>How to use this</Text>
+        <Text style={styles.infoText}>
+          Pick one activity at a time. Vertevi Kids will guide you through a
+          short session – you can do these before or during screen time to keep
+          your neck, back and eyes healthier.
+        </Text>
+      </View>
 
       <View style={styles.grid}>
         {activities.map((activity) => (
@@ -54,6 +63,12 @@ export default function KidsModeScreen({ navigation }: KidsModeScreenProps) {
           </Pressable>
         ))}
       </View>
+
+      <Text style={styles.footerText}>
+        This is an early preview of Kids Mode. In the future these activities
+        will use the camera (and optionally the Vertevi stand) to give live
+        feedback and rewards.
+      </Text>
     </ScrollView>
   );
 }
@@ -73,12 +88,32 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    marginBottom: 24,
+    marginBottom: 16,
     textAlign: 'center',
+    color: colors.textSecondary,
+  },
+  infoCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: 16,
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.textPrimary,
+    marginBottom: 4,
+  },
+  infoText: {
+    fontSize: 14,
     color: colors.textSecondary,
   },
   grid: {
     gap: 16,
+    marginTop: 8,
   },
   card: {
     backgroundColor: colors.surface,
@@ -100,5 +135,11 @@ const styles = StyleSheet.create({
   cardDescription: {
     fontSize: 14,
     color: colors.textSecondary,
+  },
+  footerText: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginTop: 24,
+    textAlign: 'center',
   },
 });
