@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { colors } from '../theme/colors';
+import { saveSession } from '../data/sessionStore';
 
 type PostureState = 'idle' | 'running' | 'complete';
 
@@ -8,14 +9,33 @@ export default function PostureCheckScreen() {
   const [state, setState] = useState<PostureState>('idle');
 
   const handleStart = () => {
+    // TODO: Integration point – when Vertevi posture detection is available:
+    // - Start a posture monitoring session here.
+    // - Subscribe to posture events (e.g. head tilt, slouching, shoulder hunch).
+    // - Prepare to show live prompts based on those events.
     setState('running');
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
+    // TODO: Integration point – when we summarise posture data:
+    // - Stop posture monitoring.
+    // - Compute simple metrics (e.g. % correct posture during the check).
+    // - Save a summary entry for parent Reports.
+
+    // Save a very simple session summary for now.
+    await saveSession({
+      type: 'posture',
+      timestamp: Date.now(),
+      durationMinutes: 0,
+      notes: 'Posture Check session completed (placeholder summary).',
+    });
+
     setState('complete');
   };
 
   const handleReset = () => {
+    // TODO: Integration point – if we later track per-session history:
+    // - Reset any in-memory posture stats here.
     setState('idle');
   };
 
@@ -57,6 +77,13 @@ export default function PostureCheckScreen() {
             &quot;Lean back slightly&quot; based on posture data.
           </Text>
 
+          {/* TODO: Integration point – live posture feedback UI.
+              - Replace this static text with:
+                - Visual indicators for head/neck/shoulders (e.g. simple icons).
+                - Clear feedback when posture goes out of range.
+                - Positive reinforcement when posture is corrected.
+          */}
+
           <View style={styles.buttonWrapper}>
             <Button
               title="Finish check"
@@ -79,6 +106,12 @@ export default function PostureCheckScreen() {
             great posture, and trends over time that parents can view in the
             reports section.
           </Text>
+
+          {/* TODO: Integration point – posture summary & trends.
+              - Show simple bullet points for what went well and what can improve.
+              - Display a friendly score or badge to motivate kids.
+              - Send a copy of this summary into the Reports & History data.
+          */}
 
           <View style={styles.buttonRow}>
             <View style={styles.buttonHalf}>
