@@ -42,6 +42,6 @@ vertevi-kids/
     ScreenTimeRulesScreen.tsx  # Screen Time Rules (with saved settings)
     PostureSettingsScreen.tsx  # Posture Settings (with saved settings)
     DeviceProfilesScreen.tsx   # Example device/child profiles
-    ReportsScreen.tsx          # Placeholder reports & history view
+    ReportsScreen.tsx          # Reports & History preview (dummy data)
     AboutScreen.tsx            # About Vertevi Kids information
     CameraTestScreen.tsx       # Camera Test (preview) screen using expo-camera
