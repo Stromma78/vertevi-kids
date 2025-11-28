@@ -16,6 +16,7 @@ import PostureSettingsScreen from './screens/PostureSettingsScreen';
 import DeviceProfilesScreen from './screens/DeviceProfilesScreen';
 import ReportsScreen from './screens/ReportsScreen';
 import AboutScreen from './screens/AboutScreen';
+import CameraTestScreen from './screens/CameraTestScreen';
 
 import { colors } from './theme/colors';
 
@@ -96,6 +97,11 @@ export default function App() {
           name="About"
           component={AboutScreen}
           options={{ title: 'About Vertevi Kids' }}
+        />
+        <Stack.Screen
+          name="CameraTest"
+          component={CameraTestScreen}
+          options={{ title: 'Camera Test (Preview)' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

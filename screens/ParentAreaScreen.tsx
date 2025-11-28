@@ -31,6 +31,11 @@ const sections = [
     title: 'About Vertevi Kids',
     description: 'See what Vertevi Kids is designed to do.',
   },
+  {
+    key: 'CameraTest',
+    title: 'Camera Test (preview)',
+    description: 'Check camera access and a simple live preview.',
+  },
 ];
 
 export default function ParentAreaScreen({ navigation }: ParentAreaScreenProps) {
