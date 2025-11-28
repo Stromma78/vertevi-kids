@@ -2,12 +2,17 @@
   "name": "vertevi-kids",
   "version": "1.0.0",
   "main": "index.ts",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
-  },
+"scripts": {
+  "start": "expo start --tunnel",
+  "start:lan": "expo start --lan",
+  "android": "expo start --android",
+  "ios": "expo start --ios",
+  "web": "expo start --web",
+  "build:android": "eas build --platform android --profile preview",
+  "build:ios": "eas build --platform ios --profile preview"
+},
+
+
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "^7.1.22",
