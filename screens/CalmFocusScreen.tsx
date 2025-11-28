@@ -8,14 +8,24 @@ export default function CalmFocusScreen() {
   const [state, setState] = useState<CalmState>('idle');
 
   const handleStart = () => {
+    // TODO: Integration point – when calm focus content is implemented:
+    // - Start a calm-focus session here.
+    // - Begin a short sequence (e.g. breathing, grounding, posture reminders).
+    // - Optionally log that a calm focus session was started.
     setState('running');
   };
 
   const handleFinish = () => {
+    // TODO: Integration point – when calm focus metrics are added:
+    // - Mark this session as completed.
+    // - Track how long the child stayed in calm focus mode.
+    // - Summarise this info for parent Reports.
     setState('complete');
   };
 
   const handleReset = () => {
+    // TODO: Integration point – if we later track calm focus streaks:
+    // - Reset in-memory session stats here, if needed.
     setState('idle');
   };
 
@@ -33,6 +43,11 @@ export default function CalmFocusScreen() {
             short, quiet settling routine. In the future this screen can include
             breathing prompts, soft cues, and posture-friendly focus tips.
           </Text>
+
+          {/* TODO: Integration point – calm focus routine selection.
+              - Choose different types of calm routines (e.g. breathing, visual focus, listening).
+              - This could later be personalised per child.
+          */}
 
           <View style={styles.buttonWrapper}>
             <Button
@@ -57,6 +72,12 @@ export default function CalmFocusScreen() {
             at a good distance while staying focused.
           </Text>
 
+          {/* TODO: Integration point – calm focus step UI.
+              - Show the current step in the calm routine.
+              - Optionally show a timer or simple animation for breathing.
+              - Keep the visuals simple to avoid overstimulating the child.
+          */}
+
           <View style={styles.buttonWrapper}>
             <Button
               title="End calm focus"
@@ -79,15 +100,21 @@ export default function CalmFocusScreen() {
             over time.
           </Text>
 
+          {/* TODO: Integration point – calm focus summary & rewards.
+              - Show a simple summary of the calm focus session.
+              - Optionally award a small badge or encouragement for using calm focus.
+              - Feed session info into the Reports & History data.
+          */}
+
           <View style={styles.buttonRow}>
-            <View style={styles.buttonHalf}>
+            <View className="buttonHalf" style={styles.buttonHalf}>
               <Button
                 title="Start another calm focus"
                 onPress={handleStart}
                 color={colors.primary}
               />
             </View>
-            <View style={styles.buttonHalf}>
+            <View className="buttonHalf" style={styles.buttonHalf}>
               <Button
                 title="Back to start"
                 onPress={handleReset}

@@ -8,14 +8,24 @@ export default function MovementBreaksScreen() {
   const [state, setState] = useState<MovementState>('idle');
 
   const handleStart = () => {
+    // TODO: Integration point – when movement content is implemented:
+    // - Start a movement break session here.
+    // - Begin stepping through a sequence of kid-friendly stretches or actions.
+    // - Optionally log that a movement break was started for reports.
     setState('running');
   };
 
   const handleFinish = () => {
+    // TODO: Integration point – when we track how many breaks are done:
+    // - Mark this movement break as completed.
+    // - Increment a counter for movement breaks taken today.
+    // - Send summary data to the parent Reports screen.
     setState('complete');
   };
 
   const handleReset = () => {
+    // TODO: Integration point – if we track per-day or per-session movement history:
+    // - Reset any in-memory movement session stats here.
     setState('idle');
   };
 
@@ -31,8 +41,13 @@ export default function MovementBreaksScreen() {
             When you tap &quot;Start movement break&quot;, we&apos;ll walk
             through a simple sequence. In the future, this screen will guide
             your child through kid-friendly stretches that work alongside the
-            Vertevi stand.
+            Vertevi system.
           </Text>
+
+          {/* TODO: Integration point – movement sequence selection.
+              - Optionally let parents or kids choose which type of break (e.g. stretch, wiggle, breathing).
+              - This could later use a library of movement routines.
+          */}
 
           <View style={styles.buttonWrapper}>
             <Button
@@ -58,6 +73,12 @@ export default function MovementBreaksScreen() {
             with simple timers or progress indicators.
           </Text>
 
+          {/* TODO: Integration point – step-by-step movement UI.
+              - Replace this with a small "current step / total steps" UI.
+              - Show a timer or progress bar per movement.
+              - Optionally track which steps were completed successfully.
+          */}
+
           <View style={styles.buttonWrapper}>
             <Button
               title="Finish break"
@@ -79,6 +100,12 @@ export default function MovementBreaksScreen() {
             Later on, Vertevi Kids can celebrate these breaks with rewards and
             show parents how often movement breaks are taken across the day.
           </Text>
+
+          {/* TODO: Integration point – movement rewards & stats.
+              - Show how many breaks were taken today / this week.
+              - Offer badges or streaks to reward consistent movement.
+              - Feed this information into the Reports & History screen.
+          */}
 
           <View style={styles.buttonRow}>
             <View style={styles.buttonHalf}>

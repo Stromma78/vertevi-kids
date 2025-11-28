@@ -1,6 +1,11 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
 
+// TODO: Integration point – replace dummyWeeklyData with real data.
+// In the future this should come from a data layer that aggregates:
+// - Screen time from Screen Time Rules and Kids Mode sessions.
+// - Posture summary from Posture Check sessions.
+// - Movement and calm focus usage from their respective flows.
 const dummyWeeklyData = [
   { day: 'Mon', screenTime: '1h 45m', goodPosture: '80%' },
   { day: 'Tue', screenTime: '2h 10m', goodPosture: '75%' },
@@ -12,6 +17,12 @@ const dummyWeeklyData = [
 ];
 
 export default function ReportsScreen() {
+  // TODO: Integration point – data fetching.
+  // Later this component should:
+  // - Fetch real aggregated data from local storage and/or a backend.
+  // - Compute "This week" totals and "Good posture" averages.
+  // - Possibly let parents switch between weekly/monthly views.
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Reports &amp; History</Text>
@@ -35,12 +46,22 @@ export default function ReportsScreen() {
         </View>
       </View>
 
+      {/* TODO: Integration point – real summary values.
+          - Replace "13h 50m" and "79%" with computed metrics.
+          - Consider adding a simple trend indicator (e.g. up/down arrows vs last week).
+      */}
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Weekly overview</Text>
         <Text style={styles.sectionDescription}>
           These values are just example data. Later, Vertevi will show real
           usage and posture trends for your child.
         </Text>
+
+        {/* TODO: Integration point – charts or richer visualisation.
+            - Replace this simple table with a small chart (e.g. bar chart for screen time, line for posture %).
+            - Allow parents to tap a day for more detail.
+        */}
 
         <View style={styles.tableHeader}>
           <Text style={[styles.tableCell, styles.tableHeaderText]}>Day</Text>
