@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
+import { getAllSessions, SessionSummary } from '../data/sessionStore';
 
 type WeeklyDataRow = {
   day: string;
@@ -26,14 +28,33 @@ function formatMinutes(totalMinutes: number): string {
 }
 
 export default function ReportsScreen() {
-  // Calculate total weekly screen time
+  const [sessions, setSessions] = useState<SessionSummary[]>([]);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
+
+  // Load saved session summaries
+  useEffect(() => {
+    const loadSessions = async () => {
+      try {
+        const all = await getAllSessions();
+        setSessions(all);
+      } catch (error) {
+        console.warn('Failed to load sessions in Reports:', error);
+      } finally {
+        setSessionsLoading(false);
+      }
+    };
+
+    loadSessions();
+  }, []);
+
+  // Calculate total weekly screen time (dummy data for now)
   const totalScreenMinutes = dummyWeeklyData.reduce(
     (sum, row) => sum + row.screenMinutes,
     0
   );
   const totalScreenTimeLabel = formatMinutes(totalScreenMinutes);
 
-  // Calculate average "good posture" percentage
+  // Calculate average "good posture" percentage (from dummy weekly data)
   const avgGoodPosture =
     Math.round(
       dummyWeeklyData.reduce(
@@ -42,35 +63,65 @@ export default function ReportsScreen() {
       ) / dummyWeeklyData.length
     );
 
+  // Basic real session stats from sessionStore data
+  const totalSessions = sessions.length;
+  const distanceCount = sessions.filter((s) => s.type === 'distance').length;
+  const postureCount = sessions.filter((s) => s.type === 'posture').length;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Reports &amp; History</Text>
       <Text style={styles.subtitle}>
         A simple preview of the insights Vertevi Kids will provide about screen
-        time and posture.
+        time, posture, and sessions over time.
       </Text>
 
-      {/* Summary cards */}
+      {/* Real session summary (from sessionStore) */}
+      <View style={styles.sessionSummaryCard}>
+        <Text style={styles.summaryLabel}>Sessions recorded on this device</Text>
+        {sessionsLoading ? (
+          <Text style={styles.summaryDetail}>Loading sessions…</Text>
+        ) : totalSessions === 0 ? (
+          <Text style={styles.summaryDetail}>
+            No sessions have been saved yet. Try running Distance Coach or
+            Posture Check in Kids Mode.
+          </Text>
+        ) : (
+          <>
+            <Text style={styles.summaryValue}>{totalSessions}</Text>
+            <Text style={styles.summaryDetail}>
+              Distance sessions: {distanceCount}
+            </Text>
+            <Text style={styles.summaryDetail}>
+              Posture sessions: {postureCount}
+            </Text>
+          </>
+        )}
+      </View>
+
+      {/* Summary cards from dummy weekly data */}
       <View style={styles.summaryRow}>
         <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>This week</Text>
+          <Text style={styles.summaryLabel}>This week (example)</Text>
           <Text style={styles.summaryValue}>{totalScreenTimeLabel}</Text>
-          <Text style={styles.summaryDetail}>Total screen time</Text>
+          <Text style={styles.summaryDetail}>Total screen time (dummy)</Text>
         </View>
 
         <View style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>Good posture</Text>
+          <Text style={styles.summaryLabel}>Good posture (example)</Text>
           <Text style={styles.summaryValue}>{avgGoodPosture}%</Text>
-          <Text style={styles.summaryDetail}>Across all sessions</Text>
+          <Text style={styles.summaryDetail}>
+            Across all sessions (dummy)
+          </Text>
         </View>
       </View>
 
       {/* Weekly overview */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Weekly overview</Text>
+        <Text style={styles.sectionTitle}>Weekly overview (example data)</Text>
         <Text style={styles.sectionDescription}>
           These values are example data. Later, Vertevi will show real usage and
-          posture trends for your child.
+          posture trends for your child based on recorded sessions and settings.
         </Text>
 
         <View style={styles.tableHeader}>
@@ -102,10 +153,10 @@ export default function ReportsScreen() {
           In the full Vertevi Kids experience, this screen will show:
         </Text>
         <Text style={styles.bulletText}>
-          • Trends in daily and weekly screen time.
+          • Trends in daily and weekly screen time based on real usage.
         </Text>
         <Text style={styles.bulletText}>
-          • How often posture guidance was needed.
+          • How often posture guidance was needed during sessions.
         </Text>
         <Text style={styles.bulletText}>
           • Improvements over time as your child builds healthy habits.
@@ -133,6 +184,15 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     textAlign: 'center',
     color: colors.textSecondary,
+  },
+  sessionSummaryCard: {
+    backgroundColor: colors.background,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: 16,
   },
   summaryRow: {
     flexDirection: 'row',
